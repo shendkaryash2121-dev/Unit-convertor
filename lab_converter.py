@@ -14,32 +14,56 @@ if "page" not in st.session_state:
 if "tool" not in st.session_state:
     st.session_state.tool = None
 
-# ---------------- STYLING + ANIMATION ----------------
+# ---------------- STYLING ----------------
 st.markdown("""
 <style>
+
+/* -------- MAIN BACKGROUND -------- */
 .stApp {
-    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+    background:
+        radial-gradient(circle at top left, rgba(0,255,255,0.08), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0,150,255,0.08), transparent 45%),
+        linear-gradient(180deg, #0b1117 0%, #0f2027 40%, #09151c 100%);
     overflow: hidden;
 }
 
+/* -------- TEXT -------- */
 h1, h2, h3, p, label {
-    color: #e0f7fa !important;
+    color: #e6fbff !important;
 }
 
+/* -------- BUTTONS -------- */
 .stButton > button {
-    background-color: #00acc1;
-    color: black;
-    border-radius: 14px;
+    background: linear-gradient(135deg, #00e5ff, #00acc1);
+    color: #002b36;
+    border-radius: 16px;
     font-size: 16px;
-    padding: 10px 22px;
+    font-weight: 600;
+    padding: 12px 26px;
+    border: none;
+    box-shadow: 0 0 20px rgba(0,229,255,0.35);
+    transition: all 0.3s ease;
 }
 
-.card {
-    background-color: rgba(255,255,255,0.08);
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
+.stButton > button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(0,229,255,0.6);
 }
+
+/* -------- INPUTS -------- */
+input, select {
+    background-color: rgba(255,255,255,0.08) !important;
+    color: #e0f7fa !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(0,255,255,0.2) !important;
+}
+
+/* -------- ALERTS -------- */
+.stAlert {
+    background-color: rgba(0, 255, 255, 0.08);
+    border-left: 4px solid #00e5ff;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -59,12 +83,12 @@ if st.session_state.page == "welcome":
         st.rerun()
 
 # =========================
-# PAGE 2 — SELECTION PAGE
+# PAGE 2 — SELECTION
 # =========================
 elif st.session_state.page == "selection":
 
     st.markdown("<h2 style='text-align:center;'>🔬 Available Conversions</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>We provide 7 laboratory conversion tools</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;'>We provide 7 laboratory calculation tools</p>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
@@ -91,7 +115,7 @@ elif st.session_state.page == "selection":
         st.rerun()
 
 # =========================
-# PAGE 3 — CALCULATOR PAGE
+# PAGE 3 — CALCULATORS
 # =========================
 elif st.session_state.page == "calculator":
 
