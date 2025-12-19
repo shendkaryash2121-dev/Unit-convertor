@@ -1,26 +1,43 @@
+import streamlit as st
+
+# ================= SESSION STATE INIT =================
+if "page" not in st.session_state:
+    st.session_state.page = "welcome"
+
+if "tool" not in st.session_state:
+    st.session_state.tool = None
+
+# ================= PAGE CONFIG =================
+st.set_page_config(
+    page_title="Laboratory Calculator",
+    page_icon="🧪",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+# ================= STYLING =================
 st.markdown("""
 <style>
 
-/* ===== REMOVE STREAMLIT DEFAULT HEADER ===== */
+/* REMOVE STREAMLIT HEADER / FOOTER */
 header {visibility: hidden;}
 footer {visibility: hidden;}
 [data-testid="stToolbar"] {display: none;}
 [data-testid="stDecoration"] {display: none;}
 
-/* ===== FULL SCREEN CENTERING ===== */
+/* FULLSCREEN CENTER */
 .stApp {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-
     background:
-        radial-gradient(circle at top right, rgba(0,220,200,0.35), transparent 45%),
-        radial-gradient(circle at bottom left, rgba(0,140,180,0.35), transparent 50%),
+        radial-gradient(circle at top right, rgba(0,240,200,0.35), transparent 45%),
+        radial-gradient(circle at bottom left, rgba(0,140,200,0.35), transparent 50%),
         linear-gradient(180deg, #0f3d3e 0%, #145c5d 45%, #1b7f7a 100%);
 }
 
-/* ===== MAIN CONTENT CARD ===== */
+/* MAIN CARD */
 .block-container {
     background: rgba(255,255,255,0.14);
     padding: 45px 55px;
@@ -31,13 +48,13 @@ footer {visibility: hidden;}
     text-align: center;
 }
 
-/* ===== TEXT ===== */
+/* TEXT */
 h1, h2, h3, p, label {
     color: #eaffff !important;
     font-weight: 600;
 }
 
-/* ===== BUTTON ===== */
+/* BUTTONS */
 .stButton > button {
     background: linear-gradient(135deg, #00f5c4, #00c9a7);
     color: #063b3b;
@@ -55,7 +72,7 @@ h1, h2, h3, p, label {
     box-shadow: 0 22px 45px rgba(0,245,196,0.75);
 }
 
-/* ===== INPUTS ===== */
+/* INPUTS */
 input, select {
     background-color: rgba(255,255,255,0.18) !important;
     color: #eaffff !important;
@@ -64,7 +81,7 @@ input, select {
     font-weight: 600;
 }
 
-/* ===== ALERTS ===== */
+/* ALERTS */
 .stAlert {
     background-color: rgba(255,255,255,0.15);
     border-left: 5px solid #00f5c4;
@@ -73,29 +90,23 @@ input, select {
 </style>
 """, unsafe_allow_html=True)
 
-
-# =========================
-# PAGE 1 — WELCOME
-# =========================
+# ================= PAGE 1 — WELCOME =================
 if st.session_state.page == "welcome":
 
-    st.markdown("<h1 style='text-align:center;'>🧪 Laboratory Calculator</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align:center;'>Biology • Chemistry • Lab Calculations</h3>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>Fast • Accurate • Scientific</p>", unsafe_allow_html=True)
-
+    st.markdown("<h1>🧪 Laboratory Calculator</h1>", unsafe_allow_html=True)
+    st.markdown("<h3>Biology • Chemistry • Lab Calculations</h3>", unsafe_allow_html=True)
+    st.markdown("<p>Fast • Accurate • Scientific</p>", unsafe_allow_html=True)
     st.markdown("<br>", unsafe_allow_html=True)
 
     if st.button("🚀 Get Started"):
         st.session_state.page = "selection"
         st.rerun()
 
-# =========================
-# PAGE 2 — SELECTION
-# =========================
+# ================= PAGE 2 — SELECTION =================
 elif st.session_state.page == "selection":
 
-    st.markdown("<h2 style='text-align:center;'>🔬 Available Conversions</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>Choose any laboratory calculation tool</p>", unsafe_allow_html=True)
+    st.markdown("<h2>🔬 Available Conversions</h2>", unsafe_allow_html=True)
+    st.markdown("<p>Select a laboratory calculation tool</p>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
@@ -121,13 +132,12 @@ elif st.session_state.page == "selection":
         st.session_state.page = "calculator"
         st.rerun()
 
-# =========================
-# PAGE 3 — CALCULATORS
-# =========================
+# ================= PAGE 3 — CALCULATORS =================
 elif st.session_state.page == "calculator":
 
     st.button("⬅ Back", on_click=lambda: st.session_state.update(page="selection", tool=None))
 
+    # MASS
     if st.session_state.tool == "mass":
         st.header("⚖️ Mass Converter")
         value = st.number_input("Mass", min_value=0.0)
@@ -137,6 +147,7 @@ elif st.session_state.page == "calculator":
         if st.button("Convert"):
             st.success((value * factor[from_u]) / factor[to_u])
 
+    # VOLUME
     elif st.session_state.tool == "volume":
         st.header("🧴 Volume Converter")
         value = st.number_input("Volume", min_value=0.0)
@@ -146,6 +157,7 @@ elif st.session_state.page == "calculator":
         if st.button("Convert"):
             st.success((value * factor[from_u]) / factor[to_u])
 
+    # CONCENTRATION
     elif st.session_state.tool == "concentration":
         st.header("🧪 Concentration (C1V1 = C2V2)")
         C1 = st.text_input("C1")
@@ -166,6 +178,7 @@ elif st.session_state.page == "calculator":
                 elif V2 == "":
                     st.success((float(C1)*float(V1))/float(C2))
 
+    # MOLARITY
     elif st.session_state.tool == "molarity":
         st.header("🧫 Molarity (grams)")
         M = st.number_input("Molarity (M)")
@@ -174,6 +187,7 @@ elif st.session_state.page == "calculator":
         if st.button("Calculate"):
             st.success(M * MW * V)
 
+    # MOLARITY DILUTION
     elif st.session_state.tool == "molarity_dilution":
         st.header("📘 Molarity by Dilution")
         M2 = st.number_input("Final Molarity")
@@ -182,6 +196,7 @@ elif st.session_state.page == "calculator":
         if st.button("Calculate"):
             st.success((M2 * V2) / V1)
 
+    # NORMALITY
     elif st.session_state.tool == "normality":
         st.header("📗 Normality")
         M = st.number_input("Molarity")
@@ -189,6 +204,7 @@ elif st.session_state.page == "calculator":
         if st.button("Calculate"):
             st.success(M * n)
 
+    # NORMALITY DILUTION
     elif st.session_state.tool == "normality_dilution":
         st.header("⚗️ Normality by Dilution")
         V1 = st.number_input("Initial Volume")
@@ -196,4 +212,3 @@ elif st.session_state.page == "calculator":
         V2 = st.number_input("Final Volume")
         if st.button("Calculate"):
             st.success((N2 * V2) / V1)
-
