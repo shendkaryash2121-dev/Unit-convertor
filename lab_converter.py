@@ -1,30 +1,34 @@
-import streamlit as st
-
-# ---------------- PAGE CONFIG ----------------
-st.set_page_config(
-    page_title="Lab Calculator",
-    page_icon="🧪",
-    layout="centered"
-)
-
-# ---------------- SESSION STATES ----------------
-if "page" not in st.session_state:
-    st.session_state.page = "welcome"
-
-if "tool" not in st.session_state:
-    st.session_state.tool = None
-
-# ---------------- STYLING (PEACOCK THEME) ----------------
 st.markdown("""
 <style>
 
-/* ===== BACKGROUND ===== */
+/* ===== REMOVE STREAMLIT DEFAULT HEADER ===== */
+header {visibility: hidden;}
+footer {visibility: hidden;}
+[data-testid="stToolbar"] {display: none;}
+[data-testid="stDecoration"] {display: none;}
+
+/* ===== FULL SCREEN CENTERING ===== */
 .stApp {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     background:
         radial-gradient(circle at top right, rgba(0,220,200,0.35), transparent 45%),
         radial-gradient(circle at bottom left, rgba(0,140,180,0.35), transparent 50%),
         linear-gradient(180deg, #0f3d3e 0%, #145c5d 45%, #1b7f7a 100%);
-    overflow: hidden;
+}
+
+/* ===== MAIN CONTENT CARD ===== */
+.block-container {
+    background: rgba(255,255,255,0.14);
+    padding: 45px 55px;
+    border-radius: 28px;
+    max-width: 720px;
+    width: 100%;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.35);
+    text-align: center;
 }
 
 /* ===== TEXT ===== */
@@ -33,22 +37,22 @@ h1, h2, h3, p, label {
     font-weight: 600;
 }
 
-/* ===== BUTTONS ===== */
+/* ===== BUTTON ===== */
 .stButton > button {
-    background: linear-gradient(135deg, #00e5c0, #00bfa5);
-    color: #083737;
-    border-radius: 20px;
-    font-size: 16px;
+    background: linear-gradient(135deg, #00f5c4, #00c9a7);
+    color: #063b3b;
+    border-radius: 22px;
+    font-size: 17px;
     font-weight: 700;
-    padding: 12px 30px;
+    padding: 14px 34px;
     border: none;
-    box-shadow: 0 12px 30px rgba(0,229,192,0.45);
+    box-shadow: 0 16px 35px rgba(0,245,196,0.55);
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 18px 40px rgba(0,229,192,0.65);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 22px 45px rgba(0,245,196,0.75);
 }
 
 /* ===== INPUTS ===== */
@@ -56,25 +60,19 @@ input, select {
     background-color: rgba(255,255,255,0.18) !important;
     color: #eaffff !important;
     border-radius: 14px !important;
-    border: 1px solid rgba(0,229,192,0.6) !important;
+    border: 1px solid rgba(0,245,196,0.6) !important;
     font-weight: 600;
 }
 
 /* ===== ALERTS ===== */
 .stAlert {
     background-color: rgba(255,255,255,0.15);
-    border-left: 5px solid #00e5c0;
+    border-left: 5px solid #00f5c4;
 }
 
-/* ===== CARD EFFECT ===== */
-.block-container {
-    background: rgba(255,255,255,0.12);
-    padding: 25px;
-    border-radius: 24px;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.28);
-}
 </style>
 """, unsafe_allow_html=True)
+
 
 # =========================
 # PAGE 1 — WELCOME
@@ -198,3 +196,4 @@ elif st.session_state.page == "calculator":
         V2 = st.number_input("Final Volume")
         if st.button("Calculate"):
             st.success((N2 * V2) / V1)
+
