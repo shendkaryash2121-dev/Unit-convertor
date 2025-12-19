@@ -88,7 +88,7 @@ if not st.session_state.started:
     with col2:
         if st.button("🚀 Get Started"):
             st.session_state.started = True
-            st.experimental_rerun()
+            st.rerun()
 
 # ---------------- MAIN APP ----------------
 else:
@@ -194,3 +194,4 @@ else:
 
     st.markdown("---")
     st.markdown("🧬 *Designed for Biology & Chemistry Laboratories*")
+
