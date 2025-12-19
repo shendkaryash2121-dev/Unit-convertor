@@ -14,56 +14,65 @@ if "page" not in st.session_state:
 if "tool" not in st.session_state:
     st.session_state.tool = None
 
-# ---------------- STYLING ----------------
+# ---------------- STYLING (BRIGHT + FRESH) ----------------
 st.markdown("""
 <style>
 
-/* -------- MAIN BACKGROUND -------- */
+/* ===== BACKGROUND ===== */
 .stApp {
     background:
-        radial-gradient(circle at top left, rgba(0,255,255,0.08), transparent 40%),
-        radial-gradient(circle at bottom right, rgba(0,150,255,0.08), transparent 45%),
-        linear-gradient(180deg, #0b1117 0%, #0f2027 40%, #09151c 100%);
+        radial-gradient(circle at top left, rgba(0,255,255,0.35), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(0,200,255,0.35), transparent 50%),
+        linear-gradient(180deg, #dffcff 0%, #b2f7ef 40%, #8be3e0 100%);
     overflow: hidden;
 }
 
-/* -------- TEXT -------- */
+/* ===== TEXT ===== */
 h1, h2, h3, p, label {
-    color: #e6fbff !important;
+    color: #00363a !important;
+    font-weight: 600;
 }
 
-/* -------- BUTTONS -------- */
+/* ===== BUTTONS ===== */
 .stButton > button {
-    background: linear-gradient(135deg, #00e5ff, #00acc1);
-    color: #002b36;
-    border-radius: 16px;
+    background: linear-gradient(135deg, #00e5ff, #00c9a7);
+    color: #00363a;
+    border-radius: 18px;
     font-size: 16px;
-    font-weight: 600;
-    padding: 12px 26px;
+    font-weight: 700;
+    padding: 12px 28px;
     border: none;
-    box-shadow: 0 0 20px rgba(0,229,255,0.35);
+    box-shadow: 0 10px 25px rgba(0, 180, 200, 0.35);
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(0,229,255,0.6);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 18px 35px rgba(0, 180, 200, 0.55);
 }
 
-/* -------- INPUTS -------- */
+/* ===== INPUTS ===== */
 input, select {
-    background-color: rgba(255,255,255,0.08) !important;
-    color: #e0f7fa !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(0,255,255,0.2) !important;
+    background-color: rgba(255,255,255,0.65) !important;
+    color: #00363a !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(0,150,180,0.4) !important;
+    font-weight: 600;
 }
 
-/* -------- ALERTS -------- */
+/* ===== SUCCESS / ERROR ===== */
 .stAlert {
-    background-color: rgba(0, 255, 255, 0.08);
-    border-left: 4px solid #00e5ff;
+    background-color: rgba(255,255,255,0.6);
+    border-left: 5px solid #00acc1;
 }
 
+/* ===== CARD EFFECT ===== */
+.block-container {
+    background: rgba(255,255,255,0.35);
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -74,7 +83,7 @@ if st.session_state.page == "welcome":
 
     st.markdown("<h1 style='text-align:center;'>🧪 Laboratory Calculator</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align:center;'>Biology • Chemistry • Lab Calculations</h3>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>Mass • Volume • Concentration • Molarity • Normality</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;'>Fast • Accurate • Scientific</p>", unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -88,7 +97,7 @@ if st.session_state.page == "welcome":
 elif st.session_state.page == "selection":
 
     st.markdown("<h2 style='text-align:center;'>🔬 Available Conversions</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>We provide 7 laboratory calculation tools</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;'>Choose any laboratory calculation</p>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
@@ -121,36 +130,30 @@ elif st.session_state.page == "calculator":
 
     st.button("⬅ Back", on_click=lambda: st.session_state.update(page="selection", tool=None))
 
-    # -------- MASS --------
     if st.session_state.tool == "mass":
         st.header("⚖️ Mass Converter")
         value = st.number_input("Mass", min_value=0.0)
         from_u = st.selectbox("From", ["kg", "g", "mg", "oz"])
         to_u = st.selectbox("To", ["kg", "g", "mg", "oz"])
         factor = {"kg":1000, "g":1, "mg":0.001, "oz":28.35}
-
         if st.button("Convert"):
             st.success((value * factor[from_u]) / factor[to_u])
 
-    # -------- VOLUME --------
     elif st.session_state.tool == "volume":
         st.header("🧴 Volume Converter")
         value = st.number_input("Volume", min_value=0.0)
         from_u = st.selectbox("From", ["L", "mL", "µL", "m³"])
         to_u = st.selectbox("To", ["L", "mL", "µL", "m³"])
         factor = {"L":1, "mL":0.001, "µL":0.000001, "m³":1000}
-
         if st.button("Convert"):
             st.success((value * factor[from_u]) / factor[to_u])
 
-    # -------- CONCENTRATION --------
     elif st.session_state.tool == "concentration":
         st.header("🧪 Concentration (C1V1 = C2V2)")
         C1 = st.text_input("C1")
         V1 = st.text_input("V1")
         C2 = st.text_input("C2")
         V2 = st.text_input("V2")
-
         if st.button("Calculate"):
             vals = [C1, V1, C2, V2]
             if vals.count("") != 1:
@@ -165,7 +168,6 @@ elif st.session_state.page == "calculator":
                 elif V2 == "":
                     st.success((float(C1)*float(V1))/float(C2))
 
-    # -------- MOLARITY --------
     elif st.session_state.tool == "molarity":
         st.header("🧫 Molarity (grams)")
         M = st.number_input("Molarity (M)")
@@ -174,7 +176,6 @@ elif st.session_state.page == "calculator":
         if st.button("Calculate"):
             st.success(M * MW * V)
 
-    # -------- MOLARITY DILUTION --------
     elif st.session_state.tool == "molarity_dilution":
         st.header("📘 Molarity by Dilution")
         M2 = st.number_input("Final Molarity")
@@ -183,7 +184,6 @@ elif st.session_state.page == "calculator":
         if st.button("Calculate"):
             st.success((M2 * V2) / V1)
 
-    # -------- NORMALITY --------
     elif st.session_state.tool == "normality":
         st.header("📗 Normality")
         M = st.number_input("Molarity")
@@ -191,7 +191,6 @@ elif st.session_state.page == "calculator":
         if st.button("Calculate"):
             st.success(M * n)
 
-    # -------- NORMALITY DILUTION --------
     elif st.session_state.tool == "normality_dilution":
         st.header("⚗️ Normality by Dilution")
         V1 = st.number_input("Initial Volume")
