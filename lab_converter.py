@@ -14,64 +14,64 @@ if "page" not in st.session_state:
 if "tool" not in st.session_state:
     st.session_state.tool = None
 
-# ---------------- STYLING (BRIGHT + FRESH) ----------------
+# ---------------- STYLING (PEACOCK THEME) ----------------
 st.markdown("""
 <style>
 
 /* ===== BACKGROUND ===== */
 .stApp {
     background:
-        radial-gradient(circle at top left, rgba(0,255,255,0.35), transparent 45%),
-        radial-gradient(circle at bottom right, rgba(0,200,255,0.35), transparent 50%),
-        linear-gradient(180deg, #dffcff 0%, #b2f7ef 40%, #8be3e0 100%);
+        radial-gradient(circle at top right, rgba(0,220,200,0.35), transparent 45%),
+        radial-gradient(circle at bottom left, rgba(0,140,180,0.35), transparent 50%),
+        linear-gradient(180deg, #0f3d3e 0%, #145c5d 45%, #1b7f7a 100%);
     overflow: hidden;
 }
 
 /* ===== TEXT ===== */
 h1, h2, h3, p, label {
-    color: #00363a !important;
+    color: #eaffff !important;
     font-weight: 600;
 }
 
 /* ===== BUTTONS ===== */
 .stButton > button {
-    background: linear-gradient(135deg, #00e5ff, #00c9a7);
-    color: #00363a;
-    border-radius: 18px;
+    background: linear-gradient(135deg, #00e5c0, #00bfa5);
+    color: #083737;
+    border-radius: 20px;
     font-size: 16px;
     font-weight: 700;
-    padding: 12px 28px;
+    padding: 12px 30px;
     border: none;
-    box-shadow: 0 10px 25px rgba(0, 180, 200, 0.35);
+    box-shadow: 0 12px 30px rgba(0,229,192,0.45);
     transition: all 0.3s ease;
 }
 
 .stButton > button:hover {
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 18px 35px rgba(0, 180, 200, 0.55);
+    box-shadow: 0 18px 40px rgba(0,229,192,0.65);
 }
 
 /* ===== INPUTS ===== */
 input, select {
-    background-color: rgba(255,255,255,0.65) !important;
-    color: #00363a !important;
+    background-color: rgba(255,255,255,0.18) !important;
+    color: #eaffff !important;
     border-radius: 14px !important;
-    border: 1px solid rgba(0,150,180,0.4) !important;
+    border: 1px solid rgba(0,229,192,0.6) !important;
     font-weight: 600;
 }
 
-/* ===== SUCCESS / ERROR ===== */
+/* ===== ALERTS ===== */
 .stAlert {
-    background-color: rgba(255,255,255,0.6);
-    border-left: 5px solid #00acc1;
+    background-color: rgba(255,255,255,0.15);
+    border-left: 5px solid #00e5c0;
 }
 
 /* ===== CARD EFFECT ===== */
 .block-container {
-    background: rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.12);
     padding: 25px;
-    border-radius: 22px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+    border-radius: 24px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.28);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -97,7 +97,7 @@ if st.session_state.page == "welcome":
 elif st.session_state.page == "selection":
 
     st.markdown("<h2 style='text-align:center;'>🔬 Available Conversions</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align:center;'>Choose any laboratory calculation</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align:center;'>Choose any laboratory calculation tool</p>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
