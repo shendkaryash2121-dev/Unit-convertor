@@ -1,5 +1,6 @@
 import streamlit as st
 from PIL import Image
+from pathlib import Path
 
 # ================= PAGE CONFIG =================
 st.set_page_config(
@@ -16,42 +17,42 @@ if "page" not in st.session_state:
 if "tool" not in st.session_state:
     st.session_state.tool = None
 
-# ================= STYLING (PROFESSIONAL MINIMAL) =================
+# ================= PROFESSIONAL MINIMAL THEME =================
 st.markdown("""
 <style>
 
-/* Remove Streamlit UI clutter */
+/* Remove Streamlit chrome */
 header, footer {visibility: hidden;}
 [data-testid="stToolbar"] {display: none;}
 
-/* App background */
+/* Background */
 .stApp {
-    background-color: #f6f8fb;
+    background-color: #f4f6f9;
     display: flex;
     justify-content: center;
 }
 
-/* Main container */
+/* Main card */
 .block-container {
     max-width: 900px;
     padding: 3rem 3.5rem;
     background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 }
 
 /* Typography */
 h1 {
-    color: #1f2a44;
+    color: #1e293b;
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
 }
 h2, h3 {
     color: #24324d;
     font-weight: 600;
 }
 p, label {
-    color: #4b5563;
+    color: #475569;
     font-size: 15px;
 }
 
@@ -59,8 +60,8 @@ p, label {
 .stButton > button {
     background-color: #24324d;
     color: white;
-    border-radius: 8px;
-    padding: 10px 22px;
+    border-radius: 10px;
+    padding: 10px 24px;
     font-weight: 600;
     border: none;
     transition: all 0.2s ease;
@@ -74,14 +75,14 @@ p, label {
 /* Inputs */
 input, select {
     background-color: #f9fafb !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     border: 1px solid #d1d5db !important;
-    color: #111827 !important;
+    color: #0f172a !important;
 }
 
 /* Alerts */
 .stAlert {
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 /* Divider */
@@ -97,13 +98,19 @@ hr {
 # ================= HOME PAGE =================
 if st.session_state.page == "home":
 
-    img = Image.open("/mnt/data/7daada3f-0886-420f-966e-f917784b3304.png")
-    st.image(img, use_container_width=True)
+    image_path = Path("LAB_CAL_2.png")
+
+    if image_path.exists():
+        img = Image.open(image_path)
+        st.image(img, use_container_width=True)
+    else:
+        st.warning("LAB_CAL_2.png not found in repository root")
 
     st.markdown("<h1>Biology Lab Unit Converter</h1>", unsafe_allow_html=True)
     st.markdown(
-        "<p>A precise and professional calculator for routine laboratory computations "
-        "used in biology, chemistry, and life-science research.</p>",
+        "<p>A professional laboratory calculator designed for accurate "
+        "biological and chemical unit conversions during buffer preparation "
+        "and routine wet-lab work.</p>",
         unsafe_allow_html=True
     )
 
@@ -147,10 +154,9 @@ elif st.session_state.page == "select":
 elif st.session_state.page == "calc":
 
     st.button("← Back", on_click=lambda: st.session_state.update(page="select", tool=None))
-
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # -------- MASS --------
+    # MASS
     if st.session_state.tool == "mass":
         st.header("Mass Conversion")
 
@@ -164,7 +170,7 @@ elif st.session_state.page == "calc":
             result = (value * factor[from_u]) / factor[to_u]
             st.success(f"{result:.4f} {to_u}")
 
-    # -------- VOLUME --------
+    # VOLUME
     elif st.session_state.tool == "volume":
         st.header("Volume Conversion")
 
@@ -178,10 +184,9 @@ elif st.session_state.page == "calc":
             result = (value * factor[from_u]) / factor[to_u]
             st.success(f"{result:.4f} {to_u}")
 
-    # -------- C1V1 --------
+    # C1V1
     elif st.session_state.tool == "c1v1":
         st.header("C1V1 = C2V2 Dilution")
-
         st.caption("Leave exactly ONE field empty")
 
         C1 = st.number_input("C1", value=None)
@@ -207,7 +212,7 @@ elif st.session_state.page == "calc":
                 except ZeroDivisionError:
                     st.error("Volume cannot be zero")
 
-    # -------- MOLARITY --------
+    # MOLARITY
     elif st.session_state.tool == "molarity":
         st.header("Molarity (from grams)")
 
@@ -219,7 +224,7 @@ elif st.session_state.page == "calc":
             grams = M * MW * V
             st.success(f"Required mass = {grams:.4f} g")
 
-    # -------- MOLARITY DILUTION --------
+    # MOLARITY DILUTION
     elif st.session_state.tool == "molarity_dilution":
         st.header("Molarity by Dilution")
 
@@ -230,7 +235,7 @@ elif st.session_state.page == "calc":
         if st.button("Calculate"):
             st.success(f"Initial Molarity = {(M2*V2)/V1:.4f} M")
 
-    # -------- NORMALITY --------
+    # NORMALITY
     elif st.session_state.tool == "normality":
         st.header("Normality")
 
@@ -240,7 +245,7 @@ elif st.session_state.page == "calc":
         if st.button("Calculate"):
             st.success(f"Normality = {M*n:.4f} N")
 
-    # -------- NORMALITY DILUTION --------
+    # NORMALITY DILUTION
     elif st.session_state.tool == "normality_dilution":
         st.header("Normality by Dilution")
 
