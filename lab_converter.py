@@ -4,7 +4,7 @@ from pathlib import Path
 
 # ================= PAGE CONFIG =================
 st.set_page_config(
-    page_title="Biology Lab Unit Converter",
+    page_title="Biotechnology Lab Calculator",
     page_icon="🧪",
     layout="centered",
     initial_sidebar_state="collapsed"
@@ -17,58 +17,61 @@ if "page" not in st.session_state:
 if "tool" not in st.session_state:
     st.session_state.tool = None
 
-# ================= PROFESSIONAL MINIMAL THEME =================
+# ================= PROFESSIONAL THEME (DARK-BLUE SAFE) =================
 st.markdown("""
 <style>
 
-/* Remove Streamlit chrome */
+/* Remove Streamlit UI */
 header, footer {visibility: hidden;}
 [data-testid="stToolbar"] {display: none;}
 
-/* Background */
+/* App background (safe for all modes) */
 .stApp {
     background-color: #f4f6f9;
     display: flex;
     justify-content: center;
 }
 
-/* Main card */
+/* Main container */
 .block-container {
     max-width: 900px;
     padding: 3rem 3.5rem;
     background: #ffffff;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.06);
 }
 
-/* Typography */
+/* ---- TITLE FIX (CRITICAL) ---- */
 h1 {
-    color: #1e293b;
-    font-weight: 700;
+    color: #0f2a44 !important;   /* deep biotech blue */
+    font-weight: 800;
     letter-spacing: -0.4px;
 }
+
+/* Subheadings */
 h2, h3 {
-    color: #24324d;
+    color: #1e3a5f !important;
     font-weight: 600;
 }
+
+/* Text */
 p, label {
-    color: #475569;
+    color: #334155 !important;
     font-size: 15px;
 }
 
 /* Buttons */
 .stButton > button {
-    background-color: #24324d;
-    color: white;
+    background-color: #1e3a5f;
+    color: #ffffff;
     border-radius: 10px;
     padding: 10px 24px;
     font-weight: 600;
     border: none;
-    transition: all 0.2s ease;
 }
 
 .stButton > button:hover {
-    background-color: #1b253b;
+    background-color: #162c47;
     transform: translateY(-1px);
 }
 
@@ -76,7 +79,7 @@ p, label {
 input, select {
     background-color: #f9fafb !important;
     border-radius: 10px !important;
-    border: 1px solid #d1d5db !important;
+    border: 1px solid #cbd5e1 !important;
     color: #0f172a !important;
 }
 
@@ -102,15 +105,21 @@ if st.session_state.page == "home":
 
     if image_path.exists():
         img = Image.open(image_path)
-        st.image(img, use_container_width=True)
+        st.image(
+            img,
+            width=420,   # 🔽 smaller, professional size
+        )
     else:
         st.warning("LAB_CAL_2.png not found in repository root")
 
-    st.markdown("<h1>Biology Lab Unit Converter</h1>", unsafe_allow_html=True)
     st.markdown(
-        "<p>A professional laboratory calculator designed for accurate "
-        "biological and chemical unit conversions during buffer preparation "
-        "and routine wet-lab work.</p>",
+        "<h1>Biotechnology Lab Calculator</h1>",
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        "<p>A professional laboratory calculator for accurate unit conversions "
+        "used in biotechnology, molecular biology, and chemical laboratories.</p>",
         unsafe_allow_html=True
     )
 
