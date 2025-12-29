@@ -377,7 +377,7 @@ def Main():
     print("3.concentration_converter")
     print("4.molarity by dilusion (M1*V1 = M2*V2)")
     print("5.molarity CALCULATION IN GRAMS")
-    print("6.Normality")
+    print("6.Molarity to normality ")
     print("7.percentage to grams")
     print("8.molarity to normality")
     print("9.molality")
@@ -411,7 +411,7 @@ def Main():
     elif choice=="5":
         calculate_Grams_of_substance_to_add()
     elif choice=="6":
-        normality() # Assuming `normality()` is intended here, as `Normality()` is not defined
+       molarity_to_normality() # Assuming `normality()` is intended here, as `Normality()` is not defined
     elif choice=="7":
        percentage_to_grams()
     elif choice=="8":
@@ -456,3 +456,4 @@ def Main():
 Main()
 
 print(Main())
+
