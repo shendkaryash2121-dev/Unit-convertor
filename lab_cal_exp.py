@@ -61,15 +61,26 @@ if st.session_state.page == "home":
     st.markdown("### 🔬 Select Calculator")
 
     calculators = [
-        "Mass",
+          "Mass",
         "Volume",
-        "Molarity",
+        "Temperature Converter",
+        "Density",
+        "Dilution (C₁V₁ = C₂V₂)",
+        "Molarity (from moles)",
+        "Molarity (from grams)",
+        "Molarity by Dilution (M₁V₁ = M₂V₂)",
         "Normality",
+        "Normality by Dilution (N₁V₁ = N₂V₂)",
+        "Molarity → Normality",
         "Molality",
-        "Percentage Solution",
-        "Dilution",
-        "Temperature",
-        "Density"
+        "Percentage Solutions",
+        "Moles Calculation",
+        "Protein",
+        "DNA / RNA Concentration",
+        "DNA Purity",
+        "pH",
+        "Osmotic Pressure",
+        "Hardy–Weinberg"
     ]
 
     choice = st.selectbox("Choose tool", calculators)
@@ -99,6 +110,168 @@ if st.session_state.page == "Mass":
     if st.button("Calculate"):
         result = (value * factors[from_u]) / factors[to_u]
         st.success(f"Result = {result:.4f} {to_u}")
+
+
+
+
+
+#-----------------------------------------------------
+# DNA concentration 
+#----------------------------------------------------
+elif tool == "DNA Concentration":
+    st.header("DNA Concentration")
+
+    A260 = st.number_input("A260")
+    dilution = st.number_input("Dilution factor", value=1.0)
+
+    if st.button("Calculate"):
+        dna = A260 * 50 * dilution
+
+        lab_result(
+            "DNA Result",
+            {"A260": A260, "Dilution": dilution},
+            "DNA = A260 × 50 × dilution",
+            f"{dna:.2f} µg/mL"
+        )
+
+#--------------------------------------------------
+# RNA concentration
+#--------------------------------------------------
+elif tool == "RNA Concentration":
+    st.header("RNA Concentration")
+
+    A260 = st.number_input("A260")
+    dilution = st.number_input("Dilution factor", value=1.0)
+
+    if st.button("Calculate"):
+        rna = A260 * 40 * dilution
+
+        lab_result(
+            "RNA Result",
+            {"A260": A260, "Dilution": dilution},
+            "RNA = A260 × 40 × dilution",
+            f"{rna:.2f} µg/mL"
+        )
+
+# -------------------------------------------------
+# Osmotic pressur 
+#--------------------------------------------------
+elif tool == "Osmotic Pressure":
+    st.header("Osmotic Pressure")
+
+    i = st.number_input("van’t Hoff factor (i)")
+    M = st.number_input("Molarity (M)")
+    T = st.number_input("Temperature (K)")
+
+    if st.button("Calculate"):
+        pi = i * M * 0.0821 * T
+
+        lab_result(
+            "Osmotic Pressure Result",
+            {"i": i, "M": M, "T": T},
+            "π = i × M × R × T",
+            f"{pi:.3f} atm"
+        )
+
+# =====================================================
+# HARDY WEINBERG
+# =====================================================
+elif tool == "Hardy–Weinberg Equation":
+    st.header("Hardy–Weinberg Equation")
+
+    p = st.slider("Allele frequency (p)", 0.0, 1.0, 0.5)
+    q = 1 - p
+
+    if st.button("Calculate"):
+        lab_result(
+            "Hardy–Weinberg Result",
+            {"p": p, "q": q},
+            "p² + 2pq + q² = 1",
+            f"p²={p*2:.3f}, 2pq={2*p*q:.3f}, q²={q*2:.3f}"
+        )
+
+
+
+# --------------------------------------------------
+# MOLARITY FROM GRAMS
+# --------------------------------------------------
+elif tool == "Molarity (from grams)":
+    st.subheader("Molarity from grams")
+    grams = st.number_input("Mass of solute (g)")
+    molar_mass = st.number_input("Molar mass (g/mol)")
+    volume = st.number_input("Volume of solution (L)")
+    if st.button("Calculate"):
+        moles = grams / molar_mass
+        st.write("Molarity (M) =", moles / volume)
+
+
+
+# --------------------------------------------------
+# MOLARITY BY DILUTION
+# --------------------------------------------------
+elif tool == "Molarity by Dilution (M₁V₁ = M₂V₂)":
+    st.subheader("Molarity by Dilution")
+    M1 = st.number_input("M₁", value=0.0)
+    V1 = st.number_input("V₁", value=0.0)
+    M2 = st.number_input("M₂", value=0.0)
+    V2 = st.number_input("V₂", value=0.0)
+    if st.button("Calculate"):
+        if M1 == 0: st.write("M₁ =", (M2*V2)/V1)
+        elif V1 == 0: st.write("V₁ =", (M2*V2)/M1)
+        elif M2 == 0: st.write("M₂ =", (M1*V1)/V2)
+        elif V2 == 0: st.write("V₂ =", (M1*V1)/M2)
+
+# --------------------------------------------------
+# NORMALITY BY DILUTION
+# --------------------------------------------------
+elif tool == "Normality by Dilution (N₁V₁ = N₂V₂)":
+    st.subheader("Normality by Dilution")
+    N1 = st.number_input("N₁", value=0.0)
+    V1 = st.number_input("V₁", value=0.0)
+    N2 = st.number_input("N₂", value=0.0)
+    V2 = st.number_input("V₂", value=0.0)
+    if st.button("Calculate"):
+        if N1 == 0: st.write("N₁ =", (N2*V2)/V1)
+        elif V1 == 0: st.write("V₁ =", (N2*V2)/N1)
+        elif N2 == 0: st.write("N₂ =", (N1*V1)/V2)
+        elif V2 == 0: st.write("V₂ =", (N1*V1)/N2)
+
+# --------------------------------------------------
+# MOLARITY → NORMALITY
+# --------------------------------------------------
+elif tool == "Molarity → Normality":
+    st.subheader("Molarity to Normality")
+    M = st.number_input("Molarity (M)")
+    n_factor = st.number_input("n-factor / valency")
+    if st.button("Calculate"):
+        st.write("Normality (N) =", M * n_factor)
+# --------------------------------------------------
+# DNA PURITY
+# --------------------------------------------------
+elif tool == "DNA Purity":
+    st.subheader("DNA Purity (A260/A280)")
+    a260 = st.number_input("A260")
+    a280 = st.number_input("A280")
+    if st.button("Calculate"):
+        ratio = a260 / a280
+        st.write("A260/A280 =", ratio)
+        if 1.8 <= ratio <= 2.0:
+            st.success("Pure DNA")
+        else:
+            st.warning("Impure sample")
+
+
+# --------------------------------------------------
+# MOLARITY FROM MOLES
+# --------------------------------------------------
+elif tool == "Molarity (from moles)":
+    st.subheader("Molarity (M = n / V)")
+    moles = st.number_input("Moles (mol)")
+    volume = st.number_input("Volume (L)")
+    if st.button("Calculate"):
+        st.write("Molarity (M) =", moles / volume)
+
+
 
 # =====================================================
 # VOLUME
@@ -224,3 +397,4 @@ elif st.session_state.page == "Density":
             st.error("Volume cannot be zero")
         else:
             st.success(f"Density = {mass/volume:.4f} g/mL")
+
