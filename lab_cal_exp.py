@@ -5,68 +5,87 @@ import math
 # PAGE CONFIG
 # --------------------------------------------------
 st.set_page_config(
-    page_title="🧪 Biotechnology Lab Calculator",
+    page_title="Biotechnology Laboratory Calculator",
     layout="wide"
 )
 
 # --------------------------------------------------
-# PROFESSIONAL LAB CSS (colors & symbols)
+# CUSTOM CSS FOR STYLING
 # --------------------------------------------------
+st.markdown("""
 <style>
+html, body, [class*="css"] {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f4f6f8;
+}
+header {visibility: hidden;}
+.lab-panel {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 6px solid #008080;
+    margin-bottom: 20px;
+}
+h1, h2, h3 { color: #1f2d3d; }
 .stButton > button {
-    background-color: #1E90FF;  /* Blue for all calculate buttons */
+    background-color: #1E90FF;  /* Blue buttons */
     color: white;
-    border-radius: 8px;
+    border-radius: 10px;
     border: none;
-    padding: 10px 22px;
+    padding: 12px 24px;
     font-weight: bold;
-    transition: background 0.3s;
+    width: 100%;
 }
 .stButton > button:hover {
-    background-color: #104E8B; /* Darker blue on hover */
+    background-color: #104E8B;
 }
-
 .back-button {
     background-color: #FF4C4C;  /* Red back button */
     color: white;
-    border-radius: 6px;
+    border-radius: 10px;
     border: none;
-    padding: 5px 12px;
+    padding: 10px 20px;
+    width: 100%;
+}
+input, .stNumberInput input {
+    font-size: 16px;
+    padding: 6px;
 }
 </style>
 """, unsafe_allow_html=True)
+
 # --------------------------------------------------
 # HEADER
 # --------------------------------------------------
-st.title("🧬 Biotechnology Laboratory Calculator")
+st.title("🧪 Biotechnology Laboratory Calculator")
 st.caption("Accurate scientific calculations for biotechnology & life science laboratories")
 
 # --------------------------------------------------
-# SIDEBAR
+# SIDEBAR MENU
 # --------------------------------------------------
 tool = st.sidebar.radio(
-    "🛠️ Select Calculator",
+    "Select Calculator 🔬",
     [
-        "🏋️ Mass",
-        "💧 Volume",
-        "🌡️ Temperature Converter",
-        "⚖️ Density",
-        "🔬 Dilution (C₁V₁ = C₂V₂)",
-        "📏 Molarity (from moles)",
-        "📏 Molarity (from grams)",
-        "💦 Molarity by Dilution (M₁V₁ = M₂V₂)",
-        "⚡ Normality",
-        "⚡ Normality by Dilution (N₁V₁ = N₂V₂)",
-        "📐 Molarity → Normality",
-        "📊 Molality",
-        "🧪 Percentage Solutions",
-        "🔹 Moles Calculation",
-        "🧫 Protein",
-        "🧬 DNA / RNA Concentration",
-        "🧬 DNA Purity",
-        "🧪 pH",
-        "💧 Osmotic Pressure",
-        "🔬 Hardy–Weinberg"
+        "Mass",
+        "Volume",
+        "Temperature Converter",
+        "Density",
+        "Dilution (C₁V₁ = C₂V₂)",
+        "Molarity (from moles)",
+        "Molarity (from grams)",
+        "Molarity by Dilution (M₁V₁ = M₂V₂)",
+        "Normality",
+        "Normality by Dilution (N₁V₁ = N₂V₂)",
+        "Molarity → Normality",
+        "Molality",
+        "Percentage Solutions",
+        "Moles Calculation",
+        "Protein",
+        "DNA / RNA Concentration",
+        "DNA Purity",
+        "pH",
+        "Osmotic Pressure",
+        "Hardy–Weinberg"
     ]
 )
 
@@ -338,4 +357,5 @@ elif tool == "🔬 Hardy–Weinberg":
         st.success(f"✅ p² = {p**2:.3f}, 2pq = {2*p*q:.3f}, q² = {q**2:.3f}")
 
 st.markdown('</div>', unsafe_allow_html=True)
+
 
