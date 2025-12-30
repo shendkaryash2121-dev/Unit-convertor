@@ -1,65 +1,59 @@
 import streamlit as st
 import math
 
-# --------------------------------------------------
-# PAGE CONFIG
-# --------------------------------------------------
+
+# =====================================================
+# PAGE CONFIG (MOBILE SAFE)
+# =====================================================
 st.set_page_config(
-    page_title="Biotechnology Lab Calculator",
-    layout="wide"
+    page_title="Biotech Lab Calculator",
+    page_icon="🧪",
+    layout="centered"
 )
 
-# --------------------------------------------------
-# CUSTOM CSS FOR STYLING
-# --------------------------------------------------
+# =====================================================
+# SESSION STATE (FOR BACK BUTTON)
+# =====================================================
+if "page" not in st.session_state:
+    st.session_state.page = "home"
+
+def go_home():
+    st.session_state.page = "home"
+
+def go_calc(name):
+    st.session_state.page = name
+
+# =====================================================
+# SAFE MOBILE CSS
+# =====================================================
 st.markdown("""
 <style>
-html, body, [class*="css"] {
-    font-family: "Segoe UI", sans-serif;
-    background-color: #f4f6f8;
-}
-header {visibility: hidden;}
-.lab-panel {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    border-left: 6px solid #008080;
-    margin-bottom: 20px;
-}
-h1, h2, h3 { color: #1f2d3d; }
 .stButton > button {
-    background-color: #1E90FF;  
-    color: white;
-    border-radius: 10px;
-    border: none;
-    padding: 12px 24px;
-    font-weight: bold;
     width: 100%;
-}
-.stButton > button:hover {
-    background-color: #104E8B;
-}
-.back-button {
-    background-color: #FF4C4C;  
+    background-color: #1976D2;
     color: white;
-    border-radius: 10px;
-    border: none;
-    padding: 10px 20px;
-    width: 100%;
-}
-input, .stNumberInput input {
     font-size: 16px;
-    padding: 6px;
+    border-radius: 12px;
+    padding: 12px;
+}
+.stSelectbox, .stNumberInput {
+    font-size: 16px;
+}
+.card {
+    background-color: white;
+    padding: 18px;
+    border-radius: 14px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+    margin-bottom: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# --------------------------------------------------
+# =====================================================
 # HEADER
-# --------------------------------------------------
-st.title("🧪 Biotechnology Laboratory Calculator")
-st.caption("Accurate scientific calculations for biotechnology & life science laboratories")
-
+# =====================================================
+st.title("🧪 Biotechnology Lab Calculator")
+st.caption("Mobile-friendly scientific calculator for laboratories")
 # --------------------------------------------------
 # SIDEBAR MENU
 # --------------------------------------------------
@@ -320,4 +314,5 @@ elif tool == "Hardy–Weinberg Equation ⚖️":
         st.success(f"p² = {p**2:.3f}, 2pq = {2*p*q:.3f}, q² = {q**2:.3f}")
 
 st.markdown('</div>', unsafe_allow_html=True)
+
 
