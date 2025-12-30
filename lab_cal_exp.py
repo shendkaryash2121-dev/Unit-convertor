@@ -344,3 +344,4 @@ elif category == "Genetics":
         "q²": q**2,
         "Total": p**2 + 2*p*q + q**2
     })
+
