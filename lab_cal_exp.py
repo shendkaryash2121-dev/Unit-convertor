@@ -94,8 +94,8 @@ st.markdown('<div class="lab-panel">', unsafe_allow_html=True)
 # --------------------------------------------------
 # BACK BUTTON
 # --------------------------------------------------
-if st.button("🔙 Back to Main Menu", key="back"):
-    st.experimental_rerun()
+if st.button("🔙 Back"):
+    st.rerun()
 
 # ----------------- Mass ---------------------------
 if tool == "Mass Conversion ⚖️":
@@ -320,3 +320,4 @@ elif tool == "Hardy–Weinberg Equation ⚖️":
         st.success(f"p² = {p**2:.3f}, 2pq = {2*p*q:.3f}, q² = {q**2:.3f}")
 
 st.markdown('</div>', unsafe_allow_html=True)
+
