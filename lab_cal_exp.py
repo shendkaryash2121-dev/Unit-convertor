@@ -11,23 +11,23 @@ st.set_page_config(
 )
 
 # ======================================================
-# MODERN BIOTECH UI CSS
+# MODERN UI CSS
 # ======================================================
 st.markdown("""
 <style>
 
-/* Global */
+/* Global background */
 body {
     background-color: #F8FAFC;
     font-family: 'Inter', sans-serif;
 }
 
-/* Card */
+/* Card container */
 .card {
     background: #FFFFFF;
     padding: 26px;
     border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06);
     margin-bottom: 25px;
     border: 1px solid #E5E7EB;
 }
@@ -43,7 +43,7 @@ body {
     font-size: 1rem;
 }
 
-/* Results */
+/* Result box */
 .result {
     background: linear-gradient(135deg, #2563EB, #14B8A6);
     color: white;
@@ -52,7 +52,7 @@ body {
     font-size: 1.3rem;
     font-weight: 700;
     text-align: center;
-    margin-top: 14px;
+    margin-top: 15px;
 }
 
 /* Sidebar */
@@ -60,6 +60,7 @@ body {
     font-size: 1.6rem;
     font-weight: 800;
     color: #2563EB;
+    margin-bottom: 10px;
 }
 
 /* Inputs */
@@ -86,10 +87,7 @@ button:hover {
 # ======================================================
 st.sidebar.markdown('<div class="sidebar-title">🧪 Lab Calculator</div>', unsafe_allow_html=True)
 
-page = st.sidebar.radio(
-    "Navigation",
-    ["🏠 Home", "🧮 Calculators"]
-)
+page = st.sidebar.radio("Navigation", ["🏠 Home", "🧮 Calculators"])
 
 # ======================================================
 # HOME PAGE
@@ -98,7 +96,7 @@ if page == "🏠 Home":
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown('<div class="title">🧬 Biotechnology Lab Unit Converter</div>', unsafe_allow_html=True)
     st.markdown(
-        "<p class='subtitle'>Modern scientific calculator for chemistry, biotechnology & molecular biology labs.</p>",
+        "<p class='subtitle'>A modern laboratory calculator for Chemistry, Biotechnology & Molecular Biology.</p>",
         unsafe_allow_html=True
     )
 
@@ -110,16 +108,16 @@ if page == "🏠 Home":
 - 🧬 Biomolecular calculations
 - 🧬 Genetics equations
 
-### 👩‍🔬 Designed For
-Students • Researchers • Laboratory Professionals
+### 👩‍🔬 Designed for
+Students • Researchers • Lab Professionals
 
-### 🚀 How to Use
-Use the sidebar → open **Calculators** → select category → calculate instantly.
+### 🚀 How to use
+Open **Calculators** from sidebar → choose category → calculate instantly.
 """)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ======================================================
-# CALCULATORS PAGE
+# CALCULATORS
 # ======================================================
 elif page == "🧮 Calculators":
 
@@ -141,7 +139,7 @@ elif page == "🧮 Calculators":
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.subheader("⚖️ Unit Conversions")
 
-        tool = st.selectbox("Select Tool", ["Mass", "Volume", "Temperature"])
+        tool = st.selectbox("Tool", ["Mass", "Volume", "Temperature"])
 
         if tool == "Mass":
             col1, col2, col3 = st.columns(3)
@@ -341,6 +339,6 @@ st.markdown("""
 <hr>
 <center style="color:#64748B;">
 🧪 Biotechnology Lab Unit Converter<br>
-Designed for Scientific Excellence
+Built for Students & Researchers
 </center>
 """, unsafe_allow_html=True)
