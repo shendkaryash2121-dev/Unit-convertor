@@ -12,41 +12,22 @@ st.set_page_config(
 # --------------------------------------------------
 # PROFESSIONAL LAB CSS (colors & symbols)
 # --------------------------------------------------
-st.markdown("""
 <style>
-html, body, [class*="css"] {
-    font-family: "Segoe UI", sans-serif;
-    background-color: #f0f4f8;
-}
-header {visibility: hidden;}
-.lab-panel {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    border-left: 6px solid #008080;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-h1, h2, h3 { color: #004d4d; }
 .stButton > button {
-    background-color: #008080;
+    background-color: #1E90FF;  /* Blue for all calculate buttons */
     color: white;
     border-radius: 8px;
     border: none;
     padding: 10px 22px;
     font-weight: bold;
+    transition: background 0.3s;
 }
-.stNumberInput > div > input {
-    border-radius: 6px;
-    border: 1px solid #008080;
-    padding: 5px;
+.stButton > button:hover {
+    background-color: #104E8B; /* Darker blue on hover */
 }
-.stSelectbox > div > div {
-    border-radius: 6px;
-    border: 1px solid #008080;
-    padding: 5px;
-}
+
 .back-button {
-    background-color: #ff6666;
+    background-color: #FF4C4C;  /* Red back button */
     color: white;
     border-radius: 6px;
     border: none;
@@ -54,7 +35,6 @@ h1, h2, h3 { color: #004d4d; }
 }
 </style>
 """, unsafe_allow_html=True)
-
 # --------------------------------------------------
 # HEADER
 # --------------------------------------------------
@@ -95,9 +75,8 @@ st.markdown('<div class="lab-panel">', unsafe_allow_html=True)
 # --------------------------------------------------
 # BACK BUTTON
 # --------------------------------------------------
-if st.button("🔙 Back to Main Menu"):
+if st.button("🔙 Back to Main Menu", key="back"):
     st.experimental_rerun()
-
 # -------------------------------
 # MASS
 # -------------------------------
@@ -359,3 +338,4 @@ elif tool == "🔬 Hardy–Weinberg":
         st.success(f"✅ p² = {p**2:.3f}, 2pq = {2*p*q:.3f}, q² = {q**2:.3f}")
 
 st.markdown('</div>', unsafe_allow_html=True)
+
