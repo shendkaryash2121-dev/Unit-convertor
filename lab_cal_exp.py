@@ -350,3 +350,4 @@ elif tool == "Hardy–Weinberg Equation":
             "p² + 2pq + q² = 1",
             f"p²={p**2:.3f}, 2pq={2*p*q:.3f}, q²={q**2:.3f}"
         )
+
