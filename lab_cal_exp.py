@@ -1,18 +1,18 @@
 import streamlit as st
 import math
 
-# ------------------------------------------------------
+# --------------------------------------------------
 # PAGE CONFIG
-# ------------------------------------------------------
+# --------------------------------------------------
 st.set_page_config(
     page_title="Complete Lab Science Calculator",
     page_icon="🧪",
     layout="centered"
 )
 
-# ------------------------------------------------------
-# CUSTOM CSS (BLUE BACKGROUND + GREEN BUTTONS)
-# ------------------------------------------------------
+# --------------------------------------------------
+# CUSTOM UI STYLE (BLUE BG + GREEN BUTTONS)
+# --------------------------------------------------
 st.markdown("""
 <style>
 .stApp {
@@ -27,11 +27,6 @@ h1 {
 }
 h2, h3 {
     color: #1b5e20;
-}
-
-/* Card container */
-.block-container {
-    padding-top: 1.5rem;
 }
 
 /* Buttons */
@@ -52,28 +47,28 @@ input, select {
     border-radius: 6px !important;
 }
 
-/* Success */
+/* Success box */
 .stSuccess {
     background-color: #e8f5e9;
     border-left: 6px solid #2e7d32;
 }
 
-/* Error */
+/* Error box */
 .stError {
     border-left: 6px solid #c62828;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# ------------------------------------------------------
+# --------------------------------------------------
 # HEADER
-# ------------------------------------------------------
+# --------------------------------------------------
 st.title("🧪 Complete Laboratory Science Calculator")
 st.caption("Chemistry • Biotechnology • Molecular Biology • Genetics")
 
-# ------------------------------------------------------
-# CATEGORY SELECTOR
-# ------------------------------------------------------
+# --------------------------------------------------
+# CATEGORY SELECTION
+# --------------------------------------------------
 category = st.selectbox(
     "Choose Category",
     [
@@ -155,18 +150,18 @@ elif category == "Solution Chemistry":
     tool = st.selectbox(
         "Select Tool",
         [
-            "C1V1 = C2V2",
+            "Concentration (C1V1 = C2V2)",
             "Molarity (grams required)",
             "Molarity by Dilution",
             "Normality by Dilution",
-            "M → N Conversion",
+            "Molarity → Normality",
             "Percentage Solutions",
             "Molality"
         ]
     )
 
-    if tool == "C1V1 = C2V2":
-        st.subheader("🧫 Dilution Formula")
+    if tool == "Concentration (C1V1 = C2V2)":
+        st.subheader("🧫 Dilution Calculator")
         C1 = st.text_input("C1")
         V1 = st.text_input("V1")
         C2 = st.text_input("C2")
@@ -181,18 +176,18 @@ elif category == "Solution Chemistry":
                 C2 = float(C2) if C2 else None
                 V2 = float(V2) if V2 else None
                 if C1 is None:
-                    st.success((C2*V2)/V1)
+                    st.success((C2 * V2) / V1)
                 elif V1 is None:
-                    st.success((C2*V2)/C1)
+                    st.success((C2 * V2) / C1)
                 elif C2 is None:
-                    st.success((C1*V1)/V2)
+                    st.success((C1 * V1) / V2)
                 else:
-                    st.success((C1*V1)/C2)
+                    st.success((C1 * V1) / C2)
 
     elif tool == "Molarity (grams required)":
-        st.subheader("⚗️ Molarity Calculation")
+        st.subheader("⚗️ Molarity")
         M = st.number_input("Molarity (M)")
-        MW = st.number_input("Molecular Weight (g/mol)")
+        MW = st.number_input("Molecular weight (g/mol)")
         V = st.number_input("Volume (L)")
         if st.button("Calculate"):
             st.success(f"{M*MW*V:.4f} g")
@@ -243,22 +238,22 @@ elif category == "Solution Chemistry":
                 else:
                     st.success((N1*V1)/N2)
 
-    elif tool == "M → N Conversion":
+    elif tool == "Molarity → Normality":
         M = st.number_input("Molarity (M)")
         n = st.number_input("n-factor")
         if st.button("Convert"):
             st.success(M*n)
 
     elif tool == "Percentage Solutions":
-        option = st.selectbox("Type", ["w/v", "v/v", "m/v"])
+        option = st.selectbox("% Type", ["w/v", "v/v", "m/v"])
         if option == "w/v":
             g = st.number_input("Grams")
             v = st.number_input("Volume (mL)")
             if st.button("Calculate"):
                 st.success((g/v)*100 if v else 0)
         elif option == "v/v":
-            vs = st.number_input("Solute volume (mL)")
-            vt = st.number_input("Solution volume (mL)")
+            vs = st.number_input("Volume solute (mL)")
+            vt = st.number_input("Volume solution (mL)")
             if st.button("Calculate"):
                 st.success((vs/vt)*100 if vt else 0)
         elif option == "m/v":
@@ -271,16 +266,16 @@ elif category == "Solution Chemistry":
         moles = st.number_input("Moles of solute")
         kg = st.number_input("Mass of solvent (kg)")
         if st.button("Calculate"):
-            st.success(moles/kg)
+            st.success(moles / kg)
 
 # ======================================================
 # PHYSICAL CHEMISTRY
 # ======================================================
 elif category == "Physical Chemistry":
 
-    tool = st.selectbox("Select Tool", ["pH", "Density", "Osmotic Pressure"])
+    tool = st.selectbox("Select Tool", ["pH Calculator", "Density", "Osmotic Pressure"])
 
-    if tool == "pH":
+    if tool == "pH Calculator":
         h = st.number_input("[H+] (M)")
         if st.button("Calculate"):
             st.success(-math.log10(h))
