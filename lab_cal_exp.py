@@ -227,18 +227,59 @@ elif tool == "Molality":
 elif tool == "Temperature Converter":
     st.header("Temperature Converter")
 
-    c = st.number_input("Temperature (°C)")
+    conversion = st.selectbox(
+        "Select Conversion",
+        [
+            "Celsius → Kelvin",
+            "Kelvin → Celsius",
+            "Fahrenheit → Celsius",
+            "Celsius → Fahrenheit",
+            "Kelvin → Fahrenheit",
+            "Fahrenheit → Kelvin"
+        ]
+    )
+
+    temp = st.number_input("Enter Temperature Value")
 
     if st.button("Convert"):
-        k = c + 273.15
-        f = (c * 9/5) + 32
+
+        if conversion == "Celsius → Kelvin":
+            result = temp + 273.15
+            formula = "K = C + 273.15"
+            output = f"{result:.2f} K"
+
+        elif conversion == "Kelvin → Celsius":
+            result = temp - 273.15
+            formula = "C = K − 273.15"
+            output = f"{result:.2f} °C"
+
+        elif conversion == "Fahrenheit → Celsius":
+            result = (temp - 32) * 5/9
+            formula = "C = (F − 32) × 5/9"
+            output = f"{result:.2f} °C"
+
+        elif conversion == "Celsius → Fahrenheit":
+            result = (temp * 9/5) + 32
+            formula = "F = (C × 9/5) + 32"
+            output = f"{result:.2f} °F"
+
+        elif conversion == "Kelvin → Fahrenheit":
+            result = (temp - 273.15) * 9/5 + 32
+            formula = "F = (K − 273.15) × 9/5 + 32"
+            output = f"{result:.2f} °F"
+
+        elif conversion == "Fahrenheit → Kelvin":
+            result = (temp - 32) * 5/9 + 273.15
+            formula = "K = (F − 32) × 5/9 + 273.15"
+            output = f"{result:.2f} K"
 
         lab_result(
-            "Temperature Conversion",
-            {"Celsius": c},
-            "K = C + 273.15 ; F = (C×9/5)+32",
-            f"{k:.2f} K , {f:.2f} °F"
+            "Temperature Conversion Result",
+            {"Input Temperature": temp, "Conversion": conversion},
+            formula,
+            output
         )
+
 
 # =====================================================
 # PROTEIN
@@ -350,4 +391,5 @@ elif tool == "Hardy–Weinberg Equation":
             "p² + 2pq + q² = 1",
             f"p²={p**2:.3f}, 2pq={2*p*q:.3f}, q²={q**2:.3f}"
         )
+
 
