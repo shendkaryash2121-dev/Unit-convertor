@@ -1,228 +1,247 @@
-
 import streamlit as st
+import math
 
-# =====================================================
-# PAGE CONFIG (MOBILE SAFE)
-# =====================================================
+# ======================================================
+# PAGE CONFIG
+# ======================================================
 st.set_page_config(
-    page_title="Biotech Lab Calculator",
+    page_title="Biotechnology Lab Calculator",
     page_icon="🧪",
     layout="centered"
 )
 
-# =====================================================
-# SESSION STATE (FOR BACK BUTTON)
-# =====================================================
-if "page" not in st.session_state:
-    st.session_state.page = "home"
-
-def go_home():
-    st.session_state.page = "home"
-
-def go_calc(name):
-    st.session_state.page = name
-
-# =====================================================
-# SAFE MOBILE CSS
-# =====================================================
+# ======================================================
+# CUSTOM DARK THEME CSS (UNCHANGED)
+# ======================================================
 st.markdown("""
 <style>
-.stButton > button {
-    width: 100%;
-    background-color: #1976D2;
-    color: white;
-    font-size: 16px;
-    border-radius: 12px;
-    padding: 12px;
+html, body, [class*="css"]  {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0e1117;
+    color: #e6e6e6;
 }
-.stSelectbox, .stNumberInput {
-    font-size: 16px;
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 900px;
+}
+h1, h2, h3 {
+    color: #ffffff;
+    font-weight: 700;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 0.2rem;
+}
+.subtitle {
+    text-align: center;
+    color: #9aa4b2;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
 }
 .card {
-    background-color: white;
-    padding: 18px;
-    border-radius: 14px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
-    margin-bottom: 15px;
+    background: #161b22;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+}
+input, select, textarea {
+    background-color: #0e1117 !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    border: 1px solid #30363d !important;
+}
+.stButton > button {
+    background: linear-gradient(135deg, #1f6feb, #388bfd);
+    color: white;
+    border-radius: 10px;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.footer {
+    text-align: center;
+    color: #6e7681;
+    font-size: 0.8rem;
+    margin-top: 3rem;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# =====================================================
-# HEADER
-# =====================================================
-st.title("🧪 Biotechnology Lab Calculator")
-st.caption("Mobile-friendly scientific calculator for laboratories")
+# ======================================================
+# TITLE
+# ======================================================
+st.title("🧪 Biotechnology Laboratory Calculator")
+st.markdown('<p class="subtitle">Chemical & Biological Calculation Toolkit</p>', unsafe_allow_html=True)
 
-# =====================================================
-# HOME PAGE
-# =====================================================
-if st.session_state.page == "home":
-
-    st.markdown("### 🔬 Select Calculator")
-
-    calculators = [
+# ======================================================
+# TOOL SELECTION
+# ======================================================
+tool = st.selectbox(
+    "Select Calculation Tool",
+    [
         "Mass",
         "Volume",
-        "Molarity",
-        "Normality",
-        "Molality",
-        "Percentage Solution",
-        "Dilution",
         "Temperature",
-        "Density"
+        "Density",
+        "Dilution (C₁V₁ = C₂V₂)",
+        "Molarity (from moles)",
+        "Molarity (from grams)",
+        "Molarity by dilution",
+        "Molality",
+        "Normality",
+        "Normality by dilution",
+        "Molarity → Normality",
+        "Moles calculation",
+        "Percentage solution",
+        "DNA concentration",
+        "RNA concentration",
+        "DNA purity (260/280)",
+        "Osmotic pressure",
+        "Hardy–Weinberg equation"
     ]
+)
 
-    choice = st.selectbox("Choose tool", calculators)
+st.markdown('<div class="card">', unsafe_allow_html=True)
 
-    if st.button("➡️ Open Calculator"):
-        go_calc(choice)
+# ======================================================
+# CALCULATORS
+# ======================================================
 
-# =====================================================
-# BACK BUTTON (FOR ALL CALCULATORS)
-# =====================================================
-if st.session_state.page != "home":
-    if st.button("⬅️ Back to Home"):
-        go_home()
-    st.markdown("---")
+if tool == "Mass":
+    m = st.number_input("Mass", min_value=0.0)
+    unit = st.selectbox("Unit", ["kg", "g", "mg"])
+    if unit == "kg":
+        st.success(f"{m*1000:.2f} g")
+    elif unit == "g":
+        st.success(f"{m/1000:.4f} kg | {m*1000:.2f} mg")
+    else:
+        st.success(f"{m/1000:.4f} g")
 
-# =====================================================
-# MASS
-# =====================================================
-if st.session_state.page == "Mass":
-    st.subheader("⚖️ Mass Conversion")
-    value = st.number_input("Value", min_value=0.0)
-    from_u = st.selectbox("From", ["kg", "g", "mg"])
-    to_u = st.selectbox("To", ["kg", "g", "mg"])
+elif tool == "Volume":
+    v = st.number_input("Volume", min_value=0.0)
+    unit = st.selectbox("Unit", ["L", "mL"])
+    st.success(f"{v*1000:.2f} mL" if unit == "L" else f"{v/1000:.4f} L")
 
-    factors = {"kg": 1000, "g": 1, "mg": 0.001}
+elif tool == "Temperature":
+    t = st.number_input("Temperature")
+    unit = st.selectbox("Convert from", ["Celsius", "Fahrenheit", "Kelvin"])
+    if unit == "Celsius":
+        st.success(f"{(t*9/5)+32:.2f} °F | {t+273.15:.2f} K")
+    elif unit == "Fahrenheit":
+        st.success(f"{(t-32)*5/9:.2f} °C")
+    else:
+        st.success(f"{t-273.15:.2f} °C")
 
-    if st.button("Calculate"):
-        result = (value * factors[from_u]) / factors[to_u]
-        st.success(f"Result = {result:.4f} {to_u}")
+elif tool == "Density":
+    m = st.number_input("Mass (g)")
+    v = st.number_input("Volume (mL)")
+    if v > 0:
+        st.success(f"Density = {m/v:.3f} g/mL")
 
-# =====================================================
-# VOLUME
-# =====================================================
-elif st.session_state.page == "Volume":
-    st.subheader("🧪 Volume Conversion")
-    value = st.number_input("Value", min_value=0.0)
-    from_u = st.selectbox("From", ["L", "mL", "µL"])
-    to_u = st.selectbox("To", ["L", "mL", "µL"])
+elif tool == "Dilution (C₁V₁ = C₂V₂)":
+    c1 = st.number_input("C₁")
+    v1 = st.number_input("V₁")
+    c2 = st.number_input("C₂")
+    if c2 > 0:
+        st.success(f"V₂ = {(c1*v1)/c2:.2f}")
 
-    factors = {"L": 1, "mL": 0.001, "µL": 0.000001}
+elif tool == "Molarity (from moles)":
+    n = st.number_input("Moles")
+    v = st.number_input("Volume (L)")
+    if v > 0:
+        st.success(f"M = {n/v:.4f}")
 
-    if st.button("Calculate"):
-        result = (value * factors[from_u]) / factors[to_u]
-        st.success(f"Result = {result:.6f} {to_u}")
+elif tool == "Molarity (from grams)":
+    g = st.number_input("Grams of solute")
+    mw = st.number_input("Molecular weight")
+    v = st.number_input("Volume (L)")
+    if mw > 0 and v > 0:
+        st.success(f"M = {(g/mw)/v:.4f}")
 
-# =====================================================
-# MOLARITY
-# =====================================================
-elif st.session_state.page == "Molarity":
-    st.subheader("⚗️ Molarity")
-    moles = st.number_input("Moles (mol)")
-    volume = st.number_input("Volume (L)")
+elif tool == "Molarity by dilution":
+    m1 = st.number_input("M₁")
+    v1 = st.number_input("V₁")
+    v2 = st.number_input("V₂")
+    if v2 > 0:
+        st.success(f"M₂ = {(m1*v1)/v2:.4f}")
 
-    if st.button("Calculate"):
-        if volume == 0:
-            st.error("Volume cannot be zero")
-        else:
-            st.success(f"Molarity (M) = {moles/volume:.4f}")
+# ================= NEW =================
+elif tool == "Molality":
+    moles = st.number_input("Moles of solute")
+    solvent = st.number_input("Mass of solvent (kg)")
+    if solvent > 0:
+        st.success(f"Molality (m) = {moles/solvent:.4f}")
 
-# =====================================================
-# NORMALITY
-# =====================================================
-elif st.session_state.page == "Normality":
-    st.subheader("🧬 Normality")
-    gram_eq = st.number_input("Gram equivalents")
-    volume = st.number_input("Volume (L)")
+elif tool == "Percentage solution":
+    ptype = st.selectbox("Select type", ["%(w/v)", "%(v/v)", "%(m/v)"])
 
-    if st.button("Calculate"):
-        if volume == 0:
-            st.error("Volume cannot be zero")
-        else:
-            st.success(f"Normality (N) = {gram_eq/volume:.4f}")
+    if ptype == "%(w/v)":
+        g = st.number_input("Grams of solute")
+        v = st.number_input("Volume of solution (mL)")
+        if v > 0:
+            st.success(f"% (w/v) = {(g/v)*100:.2f}%")
 
-# =====================================================
-# MOLALITY
-# =====================================================
-elif st.session_state.page == "Molality":
-    st.subheader("🧫 Molality")
-    moles = st.number_input("Moles of solute (mol)")
-    mass = st.number_input("Mass of solvent (kg)")
+    elif ptype == "%(v/v)":
+        vs = st.number_input("Volume of solute (mL)")
+        v = st.number_input("Volume of solution (mL)")
+        if v > 0:
+            st.success(f"% (v/v) = {(vs/v)*100:.2f}%")
 
-    if st.button("Calculate"):
-        if mass == 0:
-            st.error("Mass cannot be zero")
-        else:
-            st.success(f"Molality (m) = {moles/mass:.4f}")
+    else:
+        g = st.number_input("Mass of solute (g)")
+        v = st.number_input("Volume of solution (mL)")
+        if v > 0:
+            st.success(f"% (m/v) = {(g/v)*100:.2f}%")
 
-# =====================================================
-# PERCENTAGE SOLUTION
-# =====================================================
-elif st.session_state.page == "Percentage Solution":
-    st.subheader("📊 Percentage Solution")
-    numerator = st.number_input("Numerator")
-    denominator = st.number_input("Denominator")
+elif tool == "Normality":
+    m = st.number_input("Molarity")
+    n = st.number_input("n-factor")
+    st.success(f"N = {m*n:.4f}")
 
-    if st.button("Calculate"):
-        if denominator == 0:
-            st.error("Denominator cannot be zero")
-        else:
-            st.success(f"Percentage = {(numerator/denominator)*100:.2f}%")
+elif tool == "Normality by dilution":
+    n1 = st.number_input("N₁")
+    v1 = st.number_input("V₁")
+    v2 = st.number_input("V₂")
+    if v2 > 0:
+        st.success(f"N₂ = {(n1*v1)/v2:.4f}")
 
-# =====================================================
-# DILUTION
-# =====================================================
-elif st.session_state.page == "Dilution":
-    st.subheader("🧪 Dilution (C₁V₁ = C₂V₂)")
-    C1 = st.number_input("C₁", value=0.0)
-    V1 = st.number_input("V₁", value=0.0)
-    C2 = st.number_input("C₂", value=0.0)
-    V2 = st.number_input("V₂", value=0.0)
+elif tool == "Molarity → Normality":
+    m = st.number_input("Molarity")
+    n = st.number_input("n-factor")
+    st.success(f"Normality = {m*n:.4f}")
 
-    if st.button("Calculate"):
-        if C1 == 0 and V1 > 0:
-            st.success(f"C₁ = {(C2*V2)/V1:.4f}")
-        elif V1 == 0 and C1 > 0:
-            st.success(f"V₁ = {(C2*V2)/C1:.4f}")
-        elif C2 == 0 and V2 > 0:
-            st.success(f"C₂ = {(C1*V1)/V2:.4f}")
-        elif V2 == 0 and C2 > 0:
-            st.success(f"V₂ = {(C1*V1)/C2:.4f}")
-        else:
-            st.warning("Set only ONE value to zero")
+elif tool == "Moles calculation":
+    g = st.number_input("Grams")
+    mw = st.number_input("Molecular weight")
+    if mw > 0:
+        st.success(f"Moles = {g/mw:.4f}")
 
-# =====================================================
-# TEMPERATURE
-# =====================================================
-elif st.session_state.page == "Temperature":
-    st.subheader("🌡️ Temperature Converter")
-    temp = st.number_input("Temperature")
-    mode = st.selectbox("Conversion", ["C → K", "K → C", "C → F", "F → C"])
+elif tool == "DNA concentration":
+    a260 = st.number_input("A260")
+    st.success(f"DNA = {a260*50:.2f} µg/mL")
 
-    if st.button("Convert"):
-        if mode == "C → K":
-            st.success(f"{temp + 273.15:.2f} K")
-        elif mode == "K → C":
-            st.success(f"{temp - 273.15:.2f} °C")
-        elif mode == "C → F":
-            st.success(f"{(temp*9/5)+32:.2f} °F")
-        elif mode == "F → C":
-            st.success(f"{(temp-32)*5/9:.2f} °C")
+elif tool == "RNA concentration":
+    a260 = st.number_input("A260")
+    st.success(f"RNA = {a260*40:.2f} µg/mL")
 
-# =====================================================
-# DENSITY
-# =====================================================
-elif st.session_state.page == "Density":
-    st.subheader("🧱 Density")
-    mass = st.number_input("Mass (g)")
-    volume = st.number_input("Volume (mL)")
+elif tool == "DNA purity (260/280)":
+    a260 = st.number_input("A260")
+    a280 = st.number_input("A280")
+    if a280 > 0:
+        st.success(f"Purity ratio = {a260/a280:.2f}")
 
-    if st.button("Calculate"):
-        if volume == 0:
-            st.error("Volume cannot be zero")
-        else:
-            st.success(f"Density = {mass/volume:.4f} g/mL")
+elif tool == "Osmotic pressure":
+    m = st.number_input("Molarity")
+    t = st.number_input("Temperature (K)")
+    st.success(f"π = {m*0.0821*t:.2f} atm")
 
+elif tool == "Hardy–Weinberg equation":
+    p = st.number_input("p", max_value=1.0)
+    q = 1 - p
+    st.success(f"p²={p*p:.3f} | 2pq={2*p*q:.3f} | q²={q*q:.3f}")
+
+st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer">© Biotechnology Laboratory Calculator</div>', unsafe_allow_html=True)
