@@ -5,7 +5,7 @@ import math
 # PAGE CONFIG
 # =====================================================
 st.set_page_config(
-    page_title="Biotech Lab Calculator",
+    page_title="Biocal",
     page_icon="🧪",
     layout="centered"
 )
@@ -262,3 +262,4 @@ elif st.session_state.page == "Hardy–Weinberg":
     q=1-p
     if st.button("Calculate"):
         st.success({"p²":p*p,"2pq":2*p*q,"q²":q*q})
+
