@@ -44,7 +44,7 @@ st.markdown("""
 # =====================================================
 # HEADER
 # =====================================================
-st.title("🧪 Biotechnology Lab Calculator")
+st.title("🧪 Biocal")
 st.caption("Mobile-friendly laboratory calculations")
 
 # =====================================================
@@ -262,4 +262,5 @@ elif st.session_state.page == "Hardy–Weinberg":
     q=1-p
     if st.button("Calculate"):
         st.success({"p²":p*p,"2pq":2*p*q,"q²":q*q})
+
 
